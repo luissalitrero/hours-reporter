@@ -1,19 +1,21 @@
 import {Meteor} from 'meteor/meteor';
 
 Meteor.methods({
-	'users.search': function(params) {
-		
+	'users.search': function (params) {
 		const regexQuery = {
-			$regex: '.*' + (params.filter || '') + '.*', $options: 'i'
-		},
-		query = {
+			$regex: '.*' + (params.filter || '') + '.*',
+      $options: 'i'
+		};
+
+		const query = {
 			$or: [{
 				'profile.name': regexQuery
-			},{
+			}, {
 				'username': regexQuery
 			}]
-		},
-		options = {
+		};
+
+		const options = {
 			limit: 10,
 			skip: (Number(params.page) - 1) * 10,
 			fields: {services: 0}
