@@ -1,3 +1,8 @@
-.formCaptureGrid { margin: 15px 0; }
-.formCaptureGrid .nav-tabs-container { margin-bottom: 15px; }
-/*.formCaptureGrid .content-headers { margin-bottom: 10px; }*/
+.capture-grid { margin: 15px 0; }
+.capture-grid .nav-tabs-container { margin-bottom: 15px; }
+.capture-grid table .notes input { min-width: 200px }
+.capture-grid .buttons-section { margin-top: 15px; }
+.capture-grid table .actions {
+  padding-bottom: 12px;
+  vertical-align: bottom;
+}

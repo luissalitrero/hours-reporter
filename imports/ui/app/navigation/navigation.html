@@ -25,7 +25,7 @@
       <li ui-sref-active="active">
         <a ui-sref="app.dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
       </li>
-      <li ui-sref-active="active" ng-if="app.user.username === 'superuser'">
+      <li ui-sref-active="active" ng-if="nav.currentUser.username === 'superuser'">
         <a ui-sref="app.users.index"><i class="fa fa-fw fa-users"></i> Users</a>
       </li>
     </ul>

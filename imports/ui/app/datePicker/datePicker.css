@@ -1,0 +1,6 @@
+.date-picker-container { margin-bottom: 15px; margin-top: 15px; }
+.date-picker-container .btn-group { display: none; }
+.date-picker-container ul li:focus,
+.date-picker-container ul li:active {
+  outline: none !important;
+}

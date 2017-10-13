@@ -5,6 +5,8 @@ import loginTemplate from './login.html';
 
 class Login {
 	constructor($scope, $reactive, $state, $auth) {
+    'ngInject';
+
 		$reactive(this).attach($scope);
 
 		this.loading = false;

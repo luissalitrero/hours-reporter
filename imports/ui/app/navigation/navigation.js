@@ -7,6 +7,8 @@ import templateUrl from './navigation.html';
 
 class NavigationController {
 	constructor($scope, $reactive, $state) {
+    'ngInject';
+
 		$reactive(this).attach($scope);
 
 		this.$state = $state;

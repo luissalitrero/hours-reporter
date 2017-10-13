@@ -13,6 +13,9 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "bootstrap": "^3.3.7",
     "font-awesome": "^4.6.3",
-    "meteor-node-stubs": "~0.2.0"
+    "lodash": "^4.17.4",
+    "meteor-node-stubs": "~0.2.0",
+    "moment": "^2.19.0",
+    "moment-timezone": "^0.5.13"
   }
 }

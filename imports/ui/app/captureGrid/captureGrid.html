@@ -1,4 +1,75 @@
-<form id="formCaptureGrid" name="formCaptureGrid" class="formCaptureGrid" novalidate>
+<div class="capture-grid">
+  <!--
+  <div class="row ">
+    <div class="col-xs-12">
+      <date-picker component-datepicker-popup="'dd-MMMM-yyyy'" component-is-open="false"
+                   component-date-selected="captureGrid.setDateSelected" component-datepicker-options="" component-ng-required="true"
+                   component-close-text="Close" component-read-only="true" component-alt-input-formats="['M!/d!/yyyy']">
+      </date-picker>
+    </div>
+  </div>
+  asdf {{captureGrid.dateSelected}} {{captureGrid.blabla}}
+  -->
+  <div class="row ">
+    <div class="col-xs-12 col-sm-6">
+      <date-picker component-datepicker-popup="'dd-MMMM-yyyy'" component-is-open="false" component-date-selected="captureGrid.dateSelected"
+                   component-datepicker-options="" component-ng-required="true" component-close-text="Close" component-read-only="true"
+                   component-alt-input-formats="['M!/d!/yyyy']">
+      </date-picker>
+    </div>
+    <div class="col-xs-12 col-sm-6 buttons-section">
+      <div class="row">
+        <div class="col-xs-12 col-sm-4 pull-right" ng-if="!captureGrid.timesheet && !captureGrid.creatingTs">
+          <button type="button" class="btn btn-primary btn-block"
+                  ng-click="captureGrid.createTs(captureGrid.user._id, captureGrid.componentDateSelected)">
+            Create
+          </button>
+        </div>
+        <div class="col-xs-12 col-sm-4 pull-right" ng-if="!captureGrid.timesheet && captureGrid.creatingTs">
+          <button type="button" class="btn btn-success btn-block"
+                  ng-click="captureGrid.saveTs()">
+            Save
+          </button>
+        </div>
+        <div class="col-xs-12 col-sm-4 pull-right" ng-if="!captureGrid.timesheet && captureGrid.creatingTs">
+          <button type="button" class="btn btn-default btn-block" ng-click="captureGrid.cancelTsCreate()">Cancel</button>
+        </div>
+        <div class="col-xs-12 col-sm-4 pull-right" ng-if="captureGrid.timesheet">
+          <button type="button" class="btn btn-danger btn-block" ng-click="captureGrid.deleteTs()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--asdf {{captureGrid.dateSelected}}-->
+  <div class="row" ng-if="captureGrid.timesheet">
+    <div class="col-xs-12">
+      <div class="table-responsive">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th width="25%">Date</th>
+              <th width="60%">Notes</th>
+              <th width="10%"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Wednesday 10/04/2017</td>
+              <td class="notes">
+                <input type="text" class="form-control" />
+              </td>
+              <td class="text-center actions">
+                <button type="button" class="btn btn-primary btn-sm fa fa-plus"></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+  <!--
+<form id="formCaptureGrid" name="formCaptureGrid" class="capture-grid" novalidate>
   <div class="row nav-tabs-container">
     <div class="col-xs-12">
       <ul class="nav nav-tabs nav-justified">
@@ -42,16 +113,4 @@
     </div>
   </div>
 </form>
-
-<div class="row">
-  <div class="col-md-6">
-    <p class="input-group">
-      <input type="text" class="form-control" uib-datepicker-popup="{{captureGrid.format}}" ng-model="captureGrid.dt"
-             is-open="captureGrid.opened" datepicker-options="captureGrid.dateOptions" ng-required="true" close-text="Close"
-             alt-input-formats="captureGrid.altInputFormats" />
-      <span class="input-group-btn">
-        <button type="button" class="btn btn-default" ng-click="captureGrid.open()"><i class="fa fa-calendar"></i></button>
-      </span>
-    </p>
-  </div>
-</div>
+  -->

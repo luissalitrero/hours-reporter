@@ -1,0 +1,14 @@
+<div class="row date-picker-container">
+  <div class="col-xs-12 col-sm-7 col-md-7 col-lg-6">
+    <div class="input-group">
+      <input type="text" class="form-control" ng-model="datePicker.dt" ng-click="datePicker.openClose()"
+             ng-change="datePicker.selectDate()" ng-required="datePicker.ngRequired" ng-readonly="datePicker.readOnly"
+             uib-datepicker-popup="{{datePicker.format}}" is-open="datePicker.opened" close-text="Close"
+             datepicker-options="datePicker.dateOptions" alt-input-formats="datePicker.altInputFormats"
+             date-disabled="datePicker.dateDisabled({date: date, mode: mode})" />
+      <span class="input-group-btn">
+        <button type="button" class="btn btn-default" ng-click="datePicker.openClose()"><i class="fa fa-calendar"></i></button>
+      </span>
+    </div>
+  </div>
+</div>

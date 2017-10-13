@@ -5,6 +5,8 @@ import templateUrl from './users.html';
 
 class UsersController {
 	constructor($scope, $reactive, currentUser) {
+    'ngInject';
+
 		$reactive(this).attach($scope);
 
 		this.options = {

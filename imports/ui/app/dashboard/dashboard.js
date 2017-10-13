@@ -1,11 +1,16 @@
 import angular from 'angular';
 
-import templateUrl from './dashboard.html';
 import CaptureGrid from '../captureGrid/captureGrid';
+import templateUrl from './dashboard.html';
 
-class Dashboard {}
+class Dashboard {
+  constructor() {
+    'ngInject';
+console.log('-----0-- In dashboard');
+  }
+}
 
-const name = 'app.dashboard';
+const name = 'dashboard';
 
 angular
   .module(name, [

@@ -2,14 +2,15 @@ import angular from 'angular';
 import angularMeteor from 'angular-meteor';
 import angularMeteorAuth from 'angular-meteor-auth';
 import uiRouter from 'angular-ui-router';
-import 'angular-ui-bootstrap';
 import angularPassword from '../modules/angular-password.js';
+import 'angular-ui-bootstrap';
 
 import Filters from '../filters/filters';
 import Login from './login/login';
 import Navigation from './navigation/navigation';
 import Dashboard from './dashboard/dashboard';
 import Users from './users/users';
+import AlertsSection from './alertsSection/alertsSection';
 
 import templateUrl from './template.html';
 
@@ -25,6 +26,7 @@ angular
     'ui.bootstrap',
     angularPassword,
     Filters,
+    AlertsSection,
     Login,
     Navigation,
     Dashboard,

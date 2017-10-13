@@ -1,83 +1,97 @@
 import angular from 'angular';
+import {Meteor} from 'meteor/meteor';
 
 import templateUrl from './captureGrid.html';
+import DatePicker from '../datePicker/datePicker';
+import {Timesheets} from '/imports/api/timesheets';
 
 import './captureGrid.css';
 
 class CaptureGrid {
-  constructor() {
-    this.altInputFormats = ['M!/d!/yyyy'];
-    this.dt = new Date();
-    this.format = 'dd-MMMM-yyyy';
-    this.opened = false;
+  constructor($scope, $reactive, $rootScope, $element) {
+    'ngInject';
 
-    this.inlineOptions = {
-      customClass: this.getDayClass,
-      minDate: new Date(),
-      showWeeks: true
-    }
+    $reactive(this).attach($scope);
 
-    this.dateOptions = {
-      dateDisabled: this.disabled,
-      formatYear: 'yy',
-      maxDate: new Date(2020, 5, 22),
-      minDate: new Date(),
-      startingDay: 1
-    }
+    this.subscribe('timesheets');
 
-    this.inlineOptions.minDate = this.inlineOptions.minDate ? null : new Date();
-    this.dateOptions.minDate = this.inlineOptions.minDate;
+    this.$rootScope = $rootScope;
+    this.$element = $element;
+    this.user = Meteor.user();
 
-    this.tomorrow = new Date();
-    this.tomorrow.setDate(this.tomorrow.getDate() + 1);
-
-    this.afterTomorrow = new Date();
-    this.afterTomorrow.setDate(this.tomorrow.getDate() + 1);
-
-    this.events = [
-      { date: this.tomorrow, status: 'full' },
-      { date: this.afterTomorrow, status: 'partially' }
-    ];
+    this.dateSelected = {};
   }
 
-  clear() { this.dt = null; }
-  open() { this.opened = true; }
+  $onInit() {
+    //this.searchTimesheet(this.user._id);
 
-  disabled(data) {
-    let date = data.date,
-        mode = data.mode;
+    let dateSelectedListener = this.$rootScope.$on('DATE_SELECTED', (event, args) => {
+      event.preventDefault();
 
-    return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+      this.searchTimesheet(args.userId, args.componentDateSelected);
+    });
+
+    this.$element.on('$destroy', () => {
+      dateSelectedListener();
+    });
   }
 
-  getDayClass(data) {
-    let date = data.date,
-        mode = data.mode;
+  createTs(userId, dateSelected) {
+    this.creatingTs = true;
 
-    if (mode === 'day') {
-      let dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+    this.timesheet = {
+      payPeriodEnding: this.dateSelected,
+      user: {
+        _id: $scope.user._id,
+        userProfileName: $scope.user.profile.name
+      },
+      days: []
+    };
 
-      for (var i = 0; i < this.events.length; i++) {
-        var currentDay = new Date(this.events[i].date).setHours(0, 0, 0, 0);
+    var date = moment(timesheet.payPeriodEnding).subtract(13, 'days');
+    for (var i = 0; i < 14; i++) {
+      timesheet.days.push({
+        date: new Date(date.toDate()),
+        descriptions: []
+      });
 
-        if (dayToCheck === currentDay) {
-          return this.events[i].status;
-        }
-      }
+      date.add(1, 'd');
     }
+  }
 
-    return '';
+  //setDateSelected(dateSelected) {
+//console.log('-----000--',dateSelected);
+  //  this.dateSelected = dateSelected;
+  //  this.blabla = 'blabla';
+  //  this.scope.$apply();
+  //}
+
+  searchTimesheet(userId, componentDateSelected) {
+    this.dateSelected = componentDateSelected;
+    this.timesheet = Timesheets.findOne({userId: userId, dateTo: componentDateSelected});
+
+console.log('-----0--',userId, componentDateSelected);
+console.log('-----1--',this.timesheet);
+
+    if (!this.timesheet) {
+      this.$rootScope.alerts.push({
+        type: 'info',
+        msg: 'There is no timesheet for the specified pay period ending.'
+      });
+    }
   }
 }
 
 const name = 'captureGrid';
 
 angular
-  .module(name, [])
+  .module(name, [
+    DatePicker
+  ])
   .component(name, {
     templateUrl,
     controllerAs: name,
-    controller: [CaptureGrid]
+    controller: ['$scope', '$reactive', '$rootScope', '$element', CaptureGrid]
   });
 
 export default name;
