@@ -1,20 +1,32 @@
 import angular from 'angular';
+import _ from 'lodash';
 
 import templateUrl from './alertsSection.html';
 
 import './alertsSection.css';
 
 class AlertsSection {
-  constructor($rootScope) {
+  constructor($rootScope, $timeout) {
     'ngInject';
 
     this.$rootScope = $rootScope;
+    this.$timeout = $timeout;
 
     this.$rootScope.alerts = [];
   }
 
-  closeAlert(index) {
-    this.$rootScope.alerts.splice(index, 1);
+  autoCloseAfter(miliseconds, alert) {
+    alert.id = Date.now();
+
+    this.$timeout(() => {
+      this.closeAlert(alert.id);
+    }, miliseconds);
+  }
+
+  closeAlert(alertId) {
+    let alertIndex = _.findIndex(this.$rootScope.alerts, {id: alertId});
+
+    this.$rootScope.alerts.splice(alertIndex, 1);
   };
 }
 
@@ -25,7 +37,7 @@ angular
   .component(name, {
     templateUrl,
     controllerAs: name,
-    controller: ['$rootScope', AlertsSection]
+    controller: ['$rootScope', '$timeout', AlertsSection]
   });
 
 export default name;

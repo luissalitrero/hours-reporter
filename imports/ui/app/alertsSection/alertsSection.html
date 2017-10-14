@@ -1,7 +1,8 @@
 <div class="row alerts-container">
   <div class="col-xs-12">
-    <div uib-alert ng-repeat="alert in alertsSection.$rootScope.alerts" class="alert" ng-class="'alert-' + (alert.type || 'warning')"
-         close="alertsSection.closeAlert($index)">
+    <div uib-alert ng-repeat="alert in alertsSection.$rootScope.alerts track by $index" class="alert"
+         ng-class="'alert-' + (alert.type || 'warning')" close="alertsSection.closeAlert($index)"
+         ng-init="alertsSection.autoCloseAfter(3000, alert)">
       {{alert.msg}}
     </div>
   </div>

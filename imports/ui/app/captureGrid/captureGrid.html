@@ -12,30 +12,24 @@
   -->
   <div class="row ">
     <div class="col-xs-12 col-sm-6">
-      <date-picker component-datepicker-popup="'dd-MMMM-yyyy'" component-is-open="false" component-date-selected="captureGrid.dateSelected"
-                   component-datepicker-options="" component-ng-required="true" component-close-text="Close" component-read-only="true"
+      <date-picker component-datepicker-popup="'dd-MMMM-yyyy'"
+                   component-is-open="false"
+                   component-date-selected="captureGrid.dateSelected"
+                   component-datepicker-options=""
+                   component-ng-required="true"
+                   component-close-text="Close"
+                   component-read-only="true"
                    component-alt-input-formats="['M!/d!/yyyy']">
       </date-picker>
     </div>
     <div class="col-xs-12 col-sm-6 buttons-section">
       <div class="row">
-        <div class="col-xs-12 col-sm-4 pull-right" ng-if="!captureGrid.timesheet && !captureGrid.creatingTs">
-          <button type="button" class="btn btn-primary btn-block"
-                  ng-click="captureGrid.createTs(captureGrid.user._id, captureGrid.componentDateSelected)">
-            Create
-          </button>
-        </div>
-        <div class="col-xs-12 col-sm-4 pull-right" ng-if="!captureGrid.timesheet && captureGrid.creatingTs">
-          <button type="button" class="btn btn-success btn-block"
-                  ng-click="captureGrid.saveTs()">
-            Save
-          </button>
-        </div>
-        <div class="col-xs-12 col-sm-4 pull-right" ng-if="!captureGrid.timesheet && captureGrid.creatingTs">
-          <button type="button" class="btn btn-default btn-block" ng-click="captureGrid.cancelTsCreate()">Cancel</button>
-        </div>
-        <div class="col-xs-12 col-sm-4 pull-right" ng-if="captureGrid.timesheet">
-          <button type="button" class="btn btn-danger btn-block" ng-click="captureGrid.deleteTs()">Delete</button>
+        <div class="col-xs-12 col-sm-4 pull-right">
+          <a ui-sref="app.create-timesheet({userId: captureGrid.user._id})">
+            <button type="button" class="btn btn-primary btn-block">
+              Create
+            </button>
+          </a>
         </div>
       </div>
     </div>

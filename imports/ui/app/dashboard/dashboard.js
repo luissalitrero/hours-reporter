@@ -6,7 +6,6 @@ import templateUrl from './dashboard.html';
 class Dashboard {
   constructor() {
     'ngInject';
-console.log('-----0-- In dashboard');
   }
 }
 

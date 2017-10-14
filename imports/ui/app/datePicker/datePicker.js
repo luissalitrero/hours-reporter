@@ -18,7 +18,8 @@ class DatePicker {
   $onInit() {
     this.altInputFormats = ['M!/d!/yyyy'];
     this.closeText       = this.componentCloseText || 'Close';
-    this.dt              = moment().tz('America/Los_Angeles').day(7).hours(12).minutes(0).seconds(0).milliseconds(0).toDate();
+    this.dt              = {};
+    //this.dt              = moment().tz('America/Los_Angeles').day(7).hours(12).minutes(0).seconds(0).milliseconds(0).toDate();
     this.format          = this.componentDatepickerPopup || 'dd-MMMM-yyyy';
     this.ngRequired      = _.isBoolean(this.componentNgRequired) ? this.componentNgRequired : true;
     this.opened          = _.isBoolean(this.componentIsOpen) ? this.componentIsOpen : true;
@@ -28,48 +29,12 @@ class DatePicker {
       dateDisabled: this.disabled,
       formatYear: 'yy',
       maxDate: new Date(2020, 5, 22),
-      minDate: new Date(),
+      minDate: null,
       startingDay: 0,
       showWeeks: false,
       onOpenFocus: false
     }
-
-    this.selectDate();
-
-    //this.inlineOptions = {
-    //  customClass: this.getDayClass,
-    //  minDate: new Date(),
-    //  showWeeks: false
-    //}
-    //this.inlineOptions.minDate = this.inlineOptions.minDate ? null : new Date();
-    //this.dateOptions.minDate = this.inlineOptions.minDate;
-    //this.tomorrow = new Date();
-    //this.tomorrow.setDate(this.tomorrow.getDate() + 1);
-    //this.afterTomorrow = new Date();
-    //this.afterTomorrow.setDate(this.tomorrow.getDate() + 1);
-    //this.events = [
-    //  { date: this.tomorrow, status: 'full' },
-    //  { date: this.afterTomorrow, status: 'partially' }
-    //];
   }
-  //getDayClass(data) {
-  //  let date = data.date,
-  //      mode = data.mode;
-//
-  //  if (mode === 'day') {
-  //    let dayToCheck = new Date(date).setHours(0, 0, 0, 0);
-//
-  //    for (var i = 0; i < this.events.length; i++) {
-  //      var currentDay = new Date(this.events[i].date).setHours(0, 0, 0, 0);
-//
-  //      if (dayToCheck === currentDay) {
-  //        return this.events[i].status;
-  //      }
-  //    }
-  //  }
-//
-  //  return '';
-  //}
 
   clear() { this.dt = null; }
   openClose() { this.opened = !this.opened; }
