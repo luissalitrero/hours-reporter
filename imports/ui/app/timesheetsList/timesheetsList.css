@@ -1,0 +1,10 @@
+.timesheets-list { margin: 15px 0; }
+.timesheets-list .nav-tabs-container { margin-bottom: 15px; }
+.timesheets-list table .notes input { min-width: 200px }
+.timesheets-list .buttons-section { margin-top: 15px; }
+.timesheets-list table .actions {
+  padding-bottom: 12px;
+  vertical-align: bottom;
+}
+.timesheets-list table .row-number { font-weight: bold; }
+.timesheets-list table.timesheet-list tbody tr:hover { cursor: pointer; }

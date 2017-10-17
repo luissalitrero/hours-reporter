@@ -1,6 +1,7 @@
 import {Meteor} from 'meteor/meteor';
-import Timesheet from './collection';
+import {Timesheets} from './collection';
 
-Meteor.publish('timesheets', () => {
-  return Timesheets.find({});
+Meteor.publish('timesheets.listByUserId', function (userId) {
+console.log('-----000--',userId);
+  return Timesheets.find({"user._id": userId});
 });

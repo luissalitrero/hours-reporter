@@ -3,9 +3,6 @@ import {Meteor} from 'meteor/meteor';
 
 import templateUrl from './createTimesheet.html';
 import DatePicker from '../datePicker/datePicker';
-import TimesheetTable from './timesheetTable/timesheetTable';
-import {Timesheets} from '/imports/api/timesheets';
-import {Users} from '/imports/api/users';
 
 import './createTimesheet.css';
 
@@ -15,12 +12,11 @@ class CaptureGrid {
 
     $reactive(this).attach($scope);
 
-    this.subscribe('timesheets');
-
     this.$rootScope = $rootScope;
     this.$state = $state;
     this.$element = $element;
 
+    this.createTs = $stateParams.createTs;
     this.userId = $stateParams.userId;
     this.user = Meteor.users.findOne({"_id": this.userId});
     this.timesheet = null;
@@ -87,14 +83,28 @@ class CaptureGrid {
 
     note.text = '';
   }
+
+  saveTs(timesheet) {
+    Meteor.call('timesheet.create', angular.copy(timesheet), (error, result) => {
+      if (error) {
+        this.$rootScope.alerts.push({
+          type: 'danger',
+          msg: `The timesheet couldn't be created.`
+        });
+
+        throw new Meteor.Error('CANT-CREATE-TIMESHEET');
+      }
+
+      console.log('----0-timesheet-created--',result);
+    });
+  }
 }
 
 const name = 'createTimesheet';
 
 angular
   .module(name, [
-    DatePicker,
-    TimesheetTable
+    DatePicker
   ])
   .config(config)
   .component(name, {
@@ -107,10 +117,21 @@ export default name;
 
 function config($stateProvider) {
   $stateProvider
-    .state('app.create-timesheet', {
-      url: '/create-timesheet/:userId',
+    .state('app.timesheets.create', {
+      url: '/create/:userId',
       template: '<create-timesheet></create-timesheet>',
+      params: {
+        createTs: true
+      },
       pageTitle: 'Create timesheet'
+    })
+    .state('app.timesheets.details', {
+      url: '/:timesheetId',
+      template: '<create-timesheet></create-timesheet>',
+      params: {
+        createTs: false
+      },
+      pageTitle: 'Timesheet Details'
     });
 }
 

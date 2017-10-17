@@ -1,2 +1,3 @@
 .timesheet-capture .form-control { min-width: 200px; }
 .timesheet-capture .date { font-weight: 600; }
+.timesheet-capture ul { padding-left: 15px; }

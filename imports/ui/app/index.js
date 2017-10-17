@@ -7,6 +7,7 @@ import 'angular-ui-bootstrap';
 
 import Filters from '../filters/filters';
 import Login from './login/login';
+import Timesheets from './timesheets/timesheets';
 import Navigation from './navigation/navigation';
 import Dashboard from './dashboard/dashboard';
 import Users from './users/users';
@@ -30,7 +31,8 @@ angular
     Login,
     Navigation,
     Dashboard,
-    Users
+    Users,
+    Timesheets
   ])
   .config(config)
   .run(run);
@@ -38,7 +40,7 @@ angular
 function config($locationProvider, $urlRouterProvider, $stateProvider) {
   'ngInject';
 
-	$urlRouterProvider.otherwise('/');
+	$urlRouterProvider.otherwise('/dashboard');
 	$locationProvider.html5Mode(true);
 
 	$stateProvider.state('app', {
@@ -65,6 +67,7 @@ function run($rootScope, $state) {
 			case 'FORBIDDEN':
 				return $state.go('error.403');
 			case 'FORBIDDEN_GO_DASHBOARD':
+			case 'USER_NOT_FOUND':
 				return $state.go('app.dashboard');
 			case 'NOT_FOUND':
 				return $state.go('error.404');

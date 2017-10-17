@@ -46,10 +46,6 @@ class DatePicker {
     return mode==='day' && date.getDay() !== 0;
   }
 
-  //selectDate() {
-  //  this.componentDateSelected(this.dt);
-  //}
-
   selectDate() {
     this.componentDateSelected = this.dt;
 
@@ -67,7 +63,6 @@ angular
       componentCloseText: '@',
       componentDatepickerOptions: '=?',
       componentDatepickerPopup: '<',
-      //componentDateSelected: '<',
       componentDateSelected: '=',
       componentIsOpen: '<',
       componentNgRequired: '<',

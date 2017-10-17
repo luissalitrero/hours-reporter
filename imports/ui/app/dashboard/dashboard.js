@@ -1,6 +1,5 @@
 import angular from 'angular';
 
-import CaptureGrid from '../captureGrid/captureGrid';
 import templateUrl from './dashboard.html';
 
 class Dashboard {
@@ -12,9 +11,7 @@ class Dashboard {
 const name = 'dashboard';
 
 angular
-  .module(name, [
-    CaptureGrid
-  ])
+  .module(name, [])
   .config(config);
 
 export default name;
@@ -22,7 +19,7 @@ export default name;
 function config($stateProvider) {
   $stateProvider
     .state('app.dashboard', {
-      url: '/',
+      url: '/dashboard',
       templateUrl,
       controllerAs: name,
       controller: Dashboard
