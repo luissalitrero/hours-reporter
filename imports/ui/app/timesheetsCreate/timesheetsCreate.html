@@ -1,0 +1,119 @@
+<div class="timesheets-list timesheet-capture">
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <date-picker component-datepicker-popup="'dd-MMMM-yyyy'"
+                   component-is-open="false"
+                   component-date-selected="timesheetsCreate.dateSelected"
+                   component-datepicker-options=""
+                   component-ng-required="true"
+                   component-close-text="Close"
+                   component-read-only="true"
+                   component-alt-input-formats="['M!/d!/yyyy']"
+                   ng-if="!timesheetsCreate.editing">
+      </date-picker>
+    </div>
+    <div class="col-xs-12 col-sm-6 buttons-section">
+      <div class="row">
+        <div class="col-xs-12 col-sm-4 pull-right" ng-if="timesheetsCreate.timesheet">
+          <button type="button" class="btn btn-success btn-block" ng-click="timesheetsCreate.saveTs(timesheetsCreate.timesheet)">
+            <span ng-if="timesheetsCreate.createTs">Save</span>
+            <span ng-if="!timesheetsCreate.createTs">Update</span>
+          </button>
+        </div>
+        <div class="col-xs-12 col-sm-4 pull-right">
+          <a ui-sref="app.timesheets.list({userId: timesheetsCreate.userId})">
+            <button type="button" class="btn btn-default btn-block">
+              Cancel
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" ng-if="timesheetsCreate.timesheet">
+    <form novalidate>
+      <div class="col-xs-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th width="25%">Date</th>
+                <th width="60%">Notes</th>
+                <th width="10%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="day in timesheetsCreate.timesheet.days.slice(0, 7)">
+                <td class="date" ng-bind="day.date | date: 'EEEE MM/dd/yyyy'"></td>
+                <td class="text-left">
+                  <ul ng-if="day.notes.length">
+                    <li ng-repeat="note in day.notes track by $index" ng-bind="note.text"></li>
+                  </ul>
+                  <div>
+                    <input type="text" class="form-control" placeholder="Notes description"
+                           ng-model="timesheetsCreate.notes[day.dateTimestamp].text" />
+                  </div>
+                </td>
+                <td class="text-center actions">
+                  <button type="button" class="btn btn-primary btn-sm fa fa-plus"
+                          ng-click="timesheetsCreate.addNote(day, timesheetsCreate.notes[day.dateTimestamp])"
+                          ng-disabled="!timesheetsCreate.notes[day.dateTimestamp].text">
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-xs-12">
+        <div class="table-responsive">
+          <table class="table table-hover table-striped">
+            <thead>
+              <tr>
+                <th width="25%">Date</th>
+                <th width="60%">Notes</th>
+                <th width="10%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="day in timesheetsCreate.timesheet.days.slice(8)">
+                <td class="date" ng-bind="day.date | date: 'EEEE MM/dd/yyyy'"></td>
+                <td class="text-left">
+                  <ul ng-if="day.notes.length">
+                    <li ng-repeat="note in day.notes track by $index" ng-bind="note.text"></li>
+                  </ul>
+                  <div>
+                    <input type="text" class="form-control" placeholder="Notes description"
+                           ng-model="timesheetsCreate.notes[day.dateTimestamp].text" />
+                  </div>
+                </td>
+                <td class="text-center actions">
+                  <button type="button" class="btn btn-primary btn-sm fa fa-plus"
+                          ng-click="timesheetsCreate.addNote(day, timesheetsCreate.notes[day.dateTimestamp])"
+                          ng-disabled="!timesheetsCreate.notes[day.dateTimestamp].text">
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 buttons-section" ng-if="timesheetsCreate.createTs">
+        <div class="row">
+          <div class="col-xs-12 col-sm-4">
+            <a ui-sref="app.dashboard">
+              <button type="button" class="btn btn-default btn-block" ng-click="timesheetsCreate.cancelTsCreate()">
+                Cancel
+              </button>
+            </a>
+          </div>
+          <div class="col-xs-12 col-sm-4">
+            <button type="button" class="btn btn-success btn-block" ng-click="timesheetsCreate.saveTs(timesheetsCreate.timesheet)">
+              Save
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
