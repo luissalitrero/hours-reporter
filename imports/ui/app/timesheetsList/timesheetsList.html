@@ -1,6 +1,7 @@
 <div class="timesheets-list">
   <div class="row">
     <div class="col-xs-12 col-sm-6">
+      <!--
       <date-picker component-datepicker-popup="'dd-MMMM-yyyy'"
                    component-is-open="false"
                    component-date-selected="timesheetsList.dateSelected"
@@ -10,6 +11,7 @@
                    component-read-only="true"
                    component-alt-input-formats="['M!/d!/yyyy']">
       </date-picker>
+      -->
     </div>
     <div class="col-xs-12 col-sm-6 buttons-section">
       <div class="row">
@@ -36,7 +38,7 @@
           <tbody>
             <tr ng-repeat="timesheet in timesheetsList.timesheets track by $index">
               <td class="text-center row-number" ng-bind="$index + 1"></td>
-              <td class="text-right" ng-bind="timesheet.payPeriodEnding"></td>
+              <td class="text-right" ng-bind="timesheet.payPeriodEnding  | date: 'EEEE MM/dd/yyyy'"></td>
             </tr>
           </tbody>
         </table>

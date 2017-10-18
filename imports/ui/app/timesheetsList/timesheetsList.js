@@ -3,7 +3,7 @@ import {Meteor} from 'meteor/meteor';
 
 import templateUrl from './timesheetsList.html';
 import DatePicker from '../datePicker/datePicker';
-import CreateTimesheet from '../createTimesheet/createTimesheet';
+import TimesheetsCreate from '../timesheetsCreate/timesheetsCreate';
 import {Timesheets} from '/imports/api/timesheets';
 
 import './timesheetsList.css';
@@ -14,82 +14,71 @@ class TimesheetsList {
 
     $reactive(this).attach($scope);
 
-    this.$rootScope = $rootScope;
-    this.$element = $element;
-    this.user = Meteor.user();
-    this.dateSelected = {};
-
-    if (!this.user) {
+    if (!Meteor.user()) {
       this.$state.go('login.login');
 
       throw new Meteor.Error('FORBIDDEN_GO_DASHBOARD');
     }
 
-    const handle = Meteor.subscribe('timesheets.listByUserId', this.user._id);
-    Tracker.autorun(() => {
-      const isReady = handle.ready();
-      const userId = this.user._id;
-      let getTimesheets = function () {
-        return Meteor.call('timesheet.getByUserId', userId, function (error, result) {
-          if (error) { alert('Error retrieving timesheets'); }
-          console.log('-----0--',result);
-        });
+    this.$rootScope = $rootScope;
+    this.$element = $element;
+    this.user = Meteor.user();
+    //this.dateSelected = {};
+    this.userId = $stateParams.userId;
+
+    this.subscribe('timesheets.listByUserId', () => [this.getReactively('userId')]);
+
+    this.helpers({
+      timesheets() {
+        return Timesheets.find();
       }
-console.log('-----1--');
-      isReady && getTimesheets();
     });
-
-    //this.helpers({
-    //  timesheets() {
-    //    return Timesheets.find(this.userId);
-    //  }
-    //});
   }
 
-  $onInit() {
-    let dateSelectedListener = this.$rootScope.$on('DATE_SELECTED', (event, args) => {
-      event.preventDefault();
-
-      this.searchTimesheetsByUserIdAndDate(args.userId, args.componentDateSelected);
-    });
-
-    this.$element.on('$destroy', () => {
-      dateSelectedListener();
-    });
-
-    //this.searchTimesheetsByUserId(this.user._id);
-  }
-
-  searchTimesheetsByUserId(userId) {
-    this.timesheets = Timesheets.find({"user._id": userId});
-console.log('-----1--',this.timesheets.count());
-
-    if (!this.timesheets.count()) {
-      this.$rootScope.alerts.push({
-        type: 'info',
-        msg: 'No timesheets found.'
-      });
-    }
-  }
-
-  searchTimesheetsByUserIdAndDate(userId, dateSelected) {
-    this.timesheets = Timesheets.find({"user._id": userId});
-
-    if (!this.timesheets.count()) {
-      this.$rootScope.alerts.push({
-        type: 'info',
-        msg: 'No timesheets found.'
-      });
-    }
-
-    //this.timesheet = Timesheets.findOne({"user._id": userId, "payPeriodEnding": this.dateSelected});
-    //if (!this.timesheet) {
+  //searchTimesheetsByUserId(userId) {
+    //this.timesheets = Timesheets.find({"user._id": userId});
+//console.log('-----1--',this.timesheets.count());
+//
+    //if (!this.timesheets.count()) {
     //  this.$rootScope.alerts.push({
     //    type: 'info',
     //    msg: 'No timesheets found.'
     //  });
     //}
-  }
+  //}
+
+  //$onInit() {
+  //  let dateSelectedListener = this.$rootScope.$on('DATE_SELECTED', (event, args) => {
+  //    event.preventDefault();
+//
+  //    this.searchTimesheetsByUserIdAndDate(args.userId, args.componentDateSelected);
+  //  });
+//
+  //  this.$element.on('$destroy', () => {
+  //    dateSelectedListener();
+  //  });
+//
+  //  //this.searchTimesheetsByUserId(this.user._id);
+  //}
+
+  //searchTimesheetsByUserIdAndDate(userId, dateSelected) {
+  //  this.timesheets = Timesheets.find({"user._id": userId});
+//
+  //  if (!this.timesheets.count()) {
+  //    this.$rootScope.alerts.push({
+  //      type: 'info',
+  //      msg: 'No timesheets found.'
+  //    });
+  //  }
+//
+  //  //this.timesheet = Timesheets.findOne({"user._id": userId, "payPeriodEnding": this.dateSelected});
+  //  //if (!this.timesheet) {
+  //  //  this.$rootScope.alerts.push({
+  //  //    type: 'info',
+  //  //    msg: 'No timesheets found.'
+  //  //  });
+  //  //}
+  //}
 }
 
 const name = 'timesheetsList';
@@ -97,7 +86,7 @@ const name = 'timesheetsList';
 angular
   .module(name, [
     DatePicker,
-    CreateTimesheet
+    TimesheetsCreate
   ])
   .config(config)
   .component(name, {

@@ -3,16 +3,25 @@ import {check} from 'meteor/check';
 import {Timesheets} from './collection'
 
 Meteor.methods({
-  'timesheet.getByUserId'(userId) {
+  'timesheet.getByUserIdAndDate'(userId, payPeriodEnding) {
     if (!Meteor.userId()) {
       throw new Meteor.Error('not-authorized');
     }
 
-    check(userId, String);
+    const selector = {
+      "user._id": userId
+    };
 
-    Timesheets.find({"user._id": userId});
+    if (payPeriodEnding) {
+      selector.payPeriodEnding = payPeriodEnding;
+    }
+
+    check(userId, String);
+    check(payPeriodEnding, Date);
+
+    return Timesheets.findOne(selector);
   },
-  'timesheet.create'(timesheet) {
+  'timesheet.createOrUpdate'(timesheet, create) {
     if (!Meteor.userId() || Meteor.userId() !== timesheet.user._id) {
       throw new Meteor.Error('not-authorized');
     }
@@ -21,7 +30,10 @@ Meteor.methods({
     check(timesheet.days.length, Match.Where((length) => length === 14));
     check(timesheet.payPeriodEnding, Date);
     check(timesheet.user, {username: String, _id: String});
+    check(create, Boolean);
 
-    Timesheets.insert(timesheet);
+    if (create) { return Timesheets.insert(timesheet); }
+
+    return Timesheets.update({"_id": timesheet._id}, timesheet);
   }
 });
